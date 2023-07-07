@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+      .search-container {
+        margin-top: 20px;
+      }
+      .search-input {
+        width: 300px;
+      }
+      .results-list {
+        list-style: none;
+        border-radius: 5px;
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      .results-list li{
+        background-color: #f1f1f1;
+        padding: 12px 6px 12px 6px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .container-text{
+        text-align: center;
+      }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styless/menu.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <title>GPU Glados</title>
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a class="cabecalho-logo">
+        </a>
+    </header>
+<div class="row">
+    <div class="col" style="padding: 50px; border-radius: 15px; margin: 100px 0px 100px 0px; backdrop-filter: blur(20px); box-shadow: 0 0 30px rgba(0, 0, 0, 0); color: #f1f1f1;">
+        <div class="search-container">
+          <input type="text" id="searchInputToCompare" class="form-control search-input" placeholder="Digite sua pesquisa" onchange="searchToCompare()">
+          <ul id="resultsListToCompare" class="results-list"></ul>
+        </div>
+        <p class="container-text"><b>X</b></p>
+        <div class="search-container">
+            <input type="text" id="searchInputCompareTo" class="form-control search-input" placeholder="Digite sua pesquisa" onchange="searchCompareTo()">
+            <ul id="resultsListCompareTo" class="results-list"></ul>
+        </div>
+    </div>
+    <div class="col" id="results" style="padding: 50px; border-radius: 15px; margin: 100px 0px 100px 0px; margin-left: 20px; backdrop-filter: blur(20px); box-shadow: 0 0 30px rgba(0, 0, 0, 0); color: #f1f1f1;">
+        <div id="result1" style="height: 50%;">
+        </div>
+        <div id="result2" style="height: 50%;">
+        </div>
+    </div>
+</div>
+    <script src="/js/menu.js"></script>
+    <script>
+        // Suponha que você tenha um array de resultados
+        const arrayDeResultados = ['AMD Radeon RX 6900 XT', 'AMD Radeon RX 6800 XT', 'AMD Radeon VII', 'AMD Radeon RX 590'];
+        const arrayDeEspecificacoes = ['Memória: 16GB GDDR6 <br> Consumo: 300W <br> Pontuação: 97% <br> GPU: Navi 21', 'Memória: 16GB GDDR6 <br> Consumo: 300W <br> Pontuação: 86% <br> GPU: Navi 21', 'Memória: 16GB HBM2 <br> Consumo: 300W <br> Pontuação: 94% <br> GPU: Vega 20', 'Memória: 8GB GDDR5 <br> Consumo: 225W <br> Pontuação: 32,5% <br> GPU: Polaris 30'];
+
+        // Selecione o input e a lista de resultados
+        const searchInputToCompare = document.getElementById('searchInputToCompare');
+        const searchInputCompareTo = document.getElementById('searchInputCompareTo');
+        const resultsListToCompare = document.getElementById('resultsListToCompare');
+        const resultsListCompareTo = document.getElementById('resultsListCompareTo');
+
+        // Adicione um evento de input ao campo de pesquisa
+        function searchToCompare() {
+            // Limpe a lista de resultados
+            resultsListToCompare.innerHTML = '';
+            
+            // Obtenha o valor do campo de pesquisa
+            const searchTerm = searchInputToCompare.value.toLowerCase();
+
+            // Filtrar os resultados com base no termo de pesquisa
+            const filteredResults = arrayDeResultados.filter(function (item) {
+                return item.toLowerCase().includes(searchTerm);
+            });
+
+            const result1 = document.getElementById('result1');
+
+            // Adicione os resultados à lista
+            if (searchTerm != '') {
+                filteredResults.forEach(function (result) {
+                    const li = document.createElement('li');
+                    li.textContent = result;
+                    const result1HTML = document.createElement('p');
+                    result1HTML.textContent=arrayDeEspecificacoes[arrayDeResultados.indexOf(result)]
+                    li.onclick = function () {
+                        searchInputToCompare.value = result;
+                        result1.innerHTML=arrayDeEspecificacoes[arrayDeResultados.indexOf(result)];
+                        //result1.appendChild(result1HTML);
+                    }
+                    resultsListToCompare.appendChild(li);
+                });
+            }
+        };
+        function searchCompareTo() {
+            // Limpe a lista de resultados
+            resultsListCompareTo.innerHTML = '';
+
+            // Obtenha o valor do campo de pesquisa
+            const searchTerm = searchInputCompareTo.value.toLowerCase();
+
+            // Filtrar os resultados com base no termo de pesquisa
+            const filteredResults = arrayDeResultados.filter(function (item) {
+                return item.toLowerCase().includes(searchTerm);
+            });
+
+            const result2 = document.getElementById('result2');
+            
+            // Adicione os resultados à lista
+            if (searchTerm != '') {
+                filteredResults.forEach(function (result) {
+                    const li = document.createElement('li');
+                    li.textContent = result;
+                    const result2HTML = document.createElement('p');
+                    result2HTML.textContent=arrayDeEspecificacoes[arrayDeResultados.indexOf(result)]
+                    li.onclick = function () {
+                        searchInputCompareTo.value = result;
+                        result2.innerHTML=arrayDeEspecificacoes[arrayDeResultados.indexOf(result)];
+                        //result2.appendChild(result2HTML);
+                    }
+                    resultsListCompareTo.appendChild(li);
+                });
+            }
+        };
+    </script>
+</body>
+</html>
